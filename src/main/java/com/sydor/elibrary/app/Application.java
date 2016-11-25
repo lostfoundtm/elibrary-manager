@@ -4,6 +4,7 @@ import ch.qos.logback.classic.Logger;
 import com.sydor.elibrary.command.Command;
 import com.sydor.elibrary.command.CommandLibrary;
 import com.sydor.elibrary.command.CommandQuery;
+import com.sydor.elibrary.command.impl.Help;
 import com.sydor.elibrary.console.CommandLine;
 import com.sydor.elibrary.console.CommandQueryProcessor;
 import com.sydor.elibrary.exception.InvalidArgumentsException;
@@ -50,7 +51,7 @@ public class Application {
         commandLine.newLine();
         commandLine.println("Here is command list:");
         try {
-            commandLibrary.getCommand("Help.IDENTIFIER"/*todo change*/).execute(null);
+            commandLibrary.getCommand(Help.IDENTIFIER).execute(null);
         } catch (NoSuchCommandException e) {
             logger.error("Help command no found!");
             commandLine.println("Sorry help command not found.");
