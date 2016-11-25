@@ -1,0 +1,16 @@
+spring:
+    main:
+        banner-mode: "off"
+
+    datasource:
+        url: jdbc:h2:mem:elibrary;DB_CLOSE_ON_EXIT=TRUE
+        username: admin
+        password: nimda
+
+    jpa:
+        show-sql: false
+        hibernate:
+            ddl-auto: update
+
+elibrary:
+    default-book-author: Unknown
