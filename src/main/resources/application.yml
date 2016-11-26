@@ -3,7 +3,7 @@ spring:
         banner-mode: "off"
 
     datasource:
-        url: jdbc:h2:mem:elibrary;DB_CLOSE_ON_EXIT=TRUE
+        url: jdbc:h2:file:./data/h2/elibrary;DB_CLOSE_ON_EXIT=TRUE
         username: admin
         password: nimda
 

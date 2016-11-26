@@ -1,5 +1,6 @@
 *.class
 logs/
+data/
 
 ### idea
 *.iml
