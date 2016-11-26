@@ -40,6 +40,17 @@ public class CommandQueryProcessorTest {
     }
 
     @Test(expected = InvalidCommandQueryException.class)
+    public void testProcessCommandWithIncorrectQuery3() throws InvalidCommandQueryException {
+        commandQueryProcessor.processCommandQuery("cmd asd \"asd\" \"asd");
+    }
+
+
+    @Test(expected = InvalidCommandQueryException.class)
+    public void testProcessCommandWithIncorrectQuery4() throws InvalidCommandQueryException {
+        commandQueryProcessor.processCommandQuery("cmd asd 'asd' \'asd");
+    }
+
+    @Test(expected = InvalidCommandQueryException.class)
     public void testProcessCommandWithEmptyQuery() throws InvalidCommandQueryException {
         commandQueryProcessor.processCommandQuery("");
     }

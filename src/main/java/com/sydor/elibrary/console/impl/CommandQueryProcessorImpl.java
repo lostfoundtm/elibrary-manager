@@ -13,28 +13,45 @@ import java.util.regex.Pattern;
 @Component
 public class CommandQueryProcessorImpl implements CommandQueryProcessor {
 
+    private static final String SIMPLE_GROUP = "simple";
+    private static final String IN_DOUBLE_QUOTES_GROUP = "indoublequotes";
+    private static final String IN_SINGLE_QUOTES_GROUP = "insinglequotes";
+    private static final String UNCLOSED_QUOTES_GROUP = "unclosedquotes";
+
+    private Pattern createPattern() {
+        return Pattern.compile("(?<" + SIMPLE_GROUP + ">[^\"'\\s]+)" +
+                "|\"(?<" + IN_DOUBLE_QUOTES_GROUP + ">.+?)\"" +
+                "|'(?<" + IN_SINGLE_QUOTES_GROUP + ">.+?)'" +
+                "|(?<" + UNCLOSED_QUOTES_GROUP + ">[\"']+)");
+    }
+
     @Override
     public CommandQuery processCommandQuery(String line) throws InvalidCommandQueryException {
-        final Matcher matcher = Pattern.compile("(?<simple>[^\"'\\s]+)" +
-                "|[\"](?<indoublequotes>.+?)[\"]" +
-                "|['](?<insinglequotes>.+?)[']").matcher(line);
+        final Matcher matcher = createPattern().matcher(line);
 
-        if (matcher.find() && matcher.group("simple") != null) {
+        if (matcher.find() && matcher.group(SIMPLE_GROUP) != null) {
             CommandQuery commandQuery = new CommandQuery();
             List<String> args = new ArrayList<>();
 
-            commandQuery.setCommand(matcher.group("simple"));
+            commandQuery.setCommand(matcher.group(SIMPLE_GROUP));
 
             while (matcher.find()) {
-                String arg = matcher.group("simple") != null ?
-                        matcher.group("simple") : matcher.group("indoublequotes") != null ?
-                        matcher.group("indoublequotes") : matcher.group("insinglequotes") != null ?
-                        matcher.group("insinglequotes") : "";
+                if(matcher.group(UNCLOSED_QUOTES_GROUP)!=null){
+                    throw new InvalidCommandQueryException("Unclosed quotes");
+                }
+                String arg = getArg(matcher);
                 args.add(arg);
             }
             commandQuery.setArgs(args.toArray(new String[args.size()]));
             return commandQuery;
         }
         throw new InvalidCommandQueryException("Command not found");
+    }
+
+    private String getArg(Matcher matcher) {
+        return matcher.group(SIMPLE_GROUP) != null ?
+                matcher.group(SIMPLE_GROUP) : matcher.group(IN_DOUBLE_QUOTES_GROUP) != null ?
+                matcher.group(IN_DOUBLE_QUOTES_GROUP) : matcher.group(IN_SINGLE_QUOTES_GROUP) != null ?
+                matcher.group(IN_SINGLE_QUOTES_GROUP) : null;
     }
 }
