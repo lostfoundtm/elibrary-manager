@@ -5,9 +5,9 @@ import com.sydor.elibrary.repository.BookRepository;
 import com.sydor.elibrary.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -37,12 +37,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<String> findDistinctSortedNames() {
-        return bookRepository.findDistinctNamesOrderByName();
+    public List<Book> findByName(String name) {
+        return bookRepository.findByName(name);
     }
 
     @Override
-    public List<Book> findByName(String name) {
-        return bookRepository.findByName(name);
+    public List<Book> getAllSorted() {
+        List<Book> books = bookRepository.findAll();
+        books.sort(Comparator.comparing(Book::getName));
+        return books;
     }
 }

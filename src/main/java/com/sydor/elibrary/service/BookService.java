@@ -14,7 +14,7 @@ public interface BookService {
 
     List<Book> findAll();
 
-    List<String> findDistinctSortedNames();
+    List<Book> getAllSorted();
 
     List<Book> findByName(String name);
 }

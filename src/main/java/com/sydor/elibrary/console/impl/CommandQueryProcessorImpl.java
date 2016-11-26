@@ -36,7 +36,7 @@ public class CommandQueryProcessorImpl implements CommandQueryProcessor {
             commandQuery.setCommand(matcher.group(SIMPLE_GROUP));
 
             while (matcher.find()) {
-                if(matcher.group(UNCLOSED_QUOTES_GROUP)!=null){
+                if (matcher.group(UNCLOSED_QUOTES_GROUP) != null) {
                     throw new InvalidCommandQueryException("Unclosed quotes");
                 }
                 String arg = getArg(matcher);

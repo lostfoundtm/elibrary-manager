@@ -36,9 +36,9 @@ public class AddBook implements Command {
         }
         if (bookService.find(book) == null) {
             bookService.save(book);
-            commandLine.println("Book '" + book + "' was added.");
+            commandLine.println("Book " + book + " was added.");
         } else {
-            commandLine.println("Such book '" + book + "' already exists.");
+            commandLine.println("Such book " + book + " already exists.");
         }
     }
 
@@ -54,12 +54,17 @@ public class AddBook implements Command {
 
     @Override
     public String getDescription() {
-        return "adds book to library";
+        return "adds book to the library (author is optional)";
     }
 
     @Override
     public String getMan() {
-        //todo man
-        return "";
+        return getInvocation() + " - " + getDescription() + "\n" +
+                "Example:\n" +
+                "1)\t$> add 'J. Rowling' 'Harry Potter'\n" +
+                "\tBook J. Rowling \"Harry Potter\" was added.\n" +
+                "\n" +
+                "2)\t$> add Martin \"A Song of Ice and Fire\"\n" +
+                "\tBook Martin \"A Song of Ice and Fire\" was added.";
     }
 }

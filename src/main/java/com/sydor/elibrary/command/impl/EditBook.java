@@ -32,7 +32,7 @@ public class EditBook implements Command {
         }
 
         List<Book> books = bookService.findByName(args[0]);
-        if (books.size() < 1) {
+        if (books.isEmpty()) {
             commandLine.println("Not found any books with such name.");
         } else if (books.size() == 1) {
             edit(books.get(0));
@@ -61,7 +61,7 @@ public class EditBook implements Command {
     }
 
     private void edit(Book book) {
-        commandLine.println("Editing book '" + book + "':");
+        commandLine.println("Editing book " + book + ":");
         commandLine.println("\tType book new name or press 'enter' to skip");
         commandLine.print("\tName [" + book.getName() + "]: ");
         String name = commandLine.readLine();
@@ -78,9 +78,9 @@ public class EditBook implements Command {
         }
         if (bookService.find(book) == null) {
             bookService.save(book);
-            commandLine.println("Book '" + book + "' was updated.");
+            commandLine.println("Book " + book + " was updated.");
         } else {
-            commandLine.println("Such book '" + book + "' already exists.");
+            commandLine.println("Such book " + book + " already exists.");
             commandLine.print("Press 'enter' to change try change something or type 'q' to cancel: ");
             while (true) {
                 String input = commandLine.readLine();
@@ -90,7 +90,7 @@ public class EditBook implements Command {
                     edit(book);
                     break;
                 } else {
-                    commandLine.print("Incorrect input! Press 'enter' to change try change something or type 'q' to cancel: ");
+                    commandLine.print("Incorrect input! Press 'enter' to change something or type 'q' to cancel: ");
                 }
             }
         }
@@ -103,18 +103,24 @@ public class EditBook implements Command {
 
     @Override
     public String getInvocation() {
-        return getIdentifier();
+        return getIdentifier() + " <book name>";
     }
 
     @Override
     public String getDescription() {
-        return "remove specified book from library";
+        return "edit specified book";
     }
 
     @Override
     public String getMan() {
-        //todo man
-        return "";
+        return getInvocation() + " - " + getDescription() + "\n" +
+                "Example:\n" +
+                "\t$> edit \"A Song of Ice and Fire\"\n" +
+                "\tEditing book Martin \"A Song of Ice and Fire\":\n" +
+                "\t\tType book new name or press 'enter' to skip\n" +
+                "\t\tName [A Song of Ice and Fire]: \n" +
+                "\t\tType book new author or press 'enter' to skip or type '-' to set default\n" +
+                "\t\tAuthor [Martin]: J. Martin\n" +
+                "\tBook J. Martin \"A Song of Ice and Fire\" was updated.";
     }
-
 }

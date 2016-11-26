@@ -11,7 +11,4 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     List<Book> findByName(String name);
-
-    @Query("select b.name from Book b group by b.name order by b.name")
-    List<String> findDistinctNamesOrderByName();
 }

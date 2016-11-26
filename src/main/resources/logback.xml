@@ -35,7 +35,7 @@
         </encoder>
     </appender>
 
-    <appender name="filError" class="ch.qos.logback.core.FileAppender">
+    <appender name="fileError" class="ch.qos.logback.core.FileAppender">
         <file>logs/error.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -51,7 +51,7 @@
     <logger name="common" level="debug" additivity="false">
         <appender-ref ref="consoleDebug"/>
         <appender-ref ref="fileInfo"/>
-        <appender-ref ref="filError"/>
+        <appender-ref ref="fileError"/>
     </logger>
 
     <root level="info">

@@ -35,13 +35,10 @@ public class Exit implements Command {
 
     @Override
     public String getDescription() {
-        return "exits the e-library";
+        return "exits the library";
     }
 
-    @Override
     public String getMan() {
-        //todo man
-        return "";
+        return getInvocation() + " - " + getDescription();
     }
-
 }

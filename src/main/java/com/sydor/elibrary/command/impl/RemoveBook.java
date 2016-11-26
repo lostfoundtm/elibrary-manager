@@ -28,7 +28,7 @@ public class RemoveBook implements Command {
         }
 
         List<Book> books = bookService.findByName(args[0]);
-        if (books.size() < 1) {
+        if (books.isEmpty()) {
             commandLine.println("Not found any books with such name.");
         } else if (books.size() == 1) {
             remove(books.get(0));
@@ -57,7 +57,7 @@ public class RemoveBook implements Command {
 
     private void remove(Book book) {
         bookService.remove(book.getId());
-        commandLine.println("book '" + book + "' was removed.");
+        commandLine.println("Book " + book + " was removed.");
     }
 
     @Override
@@ -67,18 +67,19 @@ public class RemoveBook implements Command {
 
     @Override
     public String getInvocation() {
-        return getIdentifier();
+        return getIdentifier() + " <book name>";
     }
 
     @Override
     public String getDescription() {
-        return "remove specified book from library";
+        return "remove specified book from the library";
     }
 
     @Override
     public String getMan() {
-        //todo man
-        return "";
+        return getInvocation() + " - " + getDescription() + "\n" +
+                "Example:\n" +
+                "\t$> remove \"A Song of Ice and Fire\"\n" +
+                "\tBook J. Martin \"A Song of Ice and Fire\" was removed.";
     }
-
 }

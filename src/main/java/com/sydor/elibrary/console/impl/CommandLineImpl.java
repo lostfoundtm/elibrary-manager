@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.util.function.Predicate;
 
 @Component
 public class CommandLineImpl implements CommandLine {
@@ -43,6 +44,7 @@ public class CommandLineImpl implements CommandLine {
 
     /**
      * Prints a number of line separators.
+     *
      * @param number number of line separators
      */
 

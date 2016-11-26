@@ -2,6 +2,7 @@ package com.sydor.elibrary.command.impl;
 
 import com.sydor.elibrary.command.Command;
 import com.sydor.elibrary.console.CommandLine;
+import com.sydor.elibrary.entity.Book;
 import com.sydor.elibrary.exception.CommandInvocationException;
 import com.sydor.elibrary.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,19 @@ public class AllBooks implements Command {
             throw new CommandInvocationException("Invalid number of command arguments");
         }
 
-        List<String> bookNames = bookService.findDistinctSortedNames();
-        if (bookNames.size() > 0) {
-            commandLine.println("Your books:");
-            bookNames.forEach(commandLine::println);
+        showAllBooks();
+    }
+
+    private void showAllBooks() {
+        List<Book> books = bookService.getAllSorted();
+        if (books.size() > 0) {
+            commandLine.println("You have " + books.size() + " books:");
+            int i = 1;
+            for (Book book : books) {
+                commandLine.println("\t" + i++ + ". " + book);
+            }
         } else {
-            commandLine.println("You have not any books.");
+            commandLine.println("You have no books.");
         }
     }
 
@@ -47,13 +55,16 @@ public class AllBooks implements Command {
 
     @Override
     public String getDescription() {
-        return "displays list of books in library";
+        return "displays books in your library";
     }
 
     @Override
     public String getMan() {
-        //todo man
-        return "";
+        return getInvocation() + " - " + getDescription() + "\n" +
+                "Example:\n" +
+                "\t$> all\n" +
+                "\tYou have 2 books:\n" +
+                "\t1. Martin \"A Song of Ice and Fire\n" +
+                "\t2. J. Rowling \"Harry Potter\"";
     }
-
 }
