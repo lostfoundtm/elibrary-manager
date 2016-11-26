@@ -13,4 +13,8 @@ public interface BookService {
     Book find(Book book);
 
     List<Book> findAll();
+
+    List<String> findDistinctSortedNames();
+
+    List<Book> findByName(String name);
 }

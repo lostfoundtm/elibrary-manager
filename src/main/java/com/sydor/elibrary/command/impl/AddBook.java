@@ -1,10 +1,9 @@
 package com.sydor.elibrary.command.impl;
 
-import com.sun.istack.internal.NotNull;
 import com.sydor.elibrary.command.Command;
 import com.sydor.elibrary.console.CommandLine;
 import com.sydor.elibrary.entity.Book;
-import com.sydor.elibrary.exception.InvalidArgumentsException;
+import com.sydor.elibrary.exception.CommandInvocationException;
 import com.sydor.elibrary.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,10 +23,10 @@ public class AddBook implements Command {
     private CommandLine commandLine;
 
     @Override
-    public void execute(String[] args) throws InvalidArgumentsException {
+    public void execute(String[] args) throws CommandInvocationException {
         Book book;
         if (args == null || args.length < 1 || args.length > 2) {
-            throw new InvalidArgumentsException("Invalid number of command arguments");
+            throw new CommandInvocationException("Invalid number of command arguments");
         }
 
         if (args.length > 1) {
@@ -37,9 +36,9 @@ public class AddBook implements Command {
         }
         if (bookService.find(book) == null) {
             bookService.save(book);
-            commandLine.println("book '" + book + "' was added");
+            commandLine.println("Book '" + book + "' was added.");
         } else {
-            commandLine.println("such book '" + book + "' already exists");
+            commandLine.println("Such book '" + book + "' already exists.");
         }
     }
 

@@ -13,4 +13,11 @@ spring:
             ddl-auto: update
 
 elibrary:
+    logo: "Welcome to e-library! \n
+        ...._______..................\n
+        .../      /,.....Created.by..\n
+        ../      //.....Panas.Sydor..\n
+        ./______//...................\n
+        (______(/...................."
+
     default-book-author: Unknown

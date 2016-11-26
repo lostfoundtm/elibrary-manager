@@ -1,10 +1,10 @@
 package com.sydor.elibrary.command;
 
-import com.sydor.elibrary.exception.InvalidArgumentsException;
+import com.sydor.elibrary.exception.CommandInvocationException;
 
 public interface Command {
 
-    void execute(String[] args) throws InvalidArgumentsException;
+    void execute(String[] args) throws CommandInvocationException;
 
     String getIdentifier();
 

@@ -2,9 +2,7 @@ package com.sydor.elibrary.command.impl;
 
 import com.sydor.elibrary.app.Application;
 import com.sydor.elibrary.command.Command;
-import com.sydor.elibrary.console.CommandLine;
-import com.sydor.elibrary.exception.InvalidArgumentsException;
-import com.sydor.elibrary.service.BookService;
+import com.sydor.elibrary.exception.CommandInvocationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,9 +15,9 @@ public class Exit implements Command {
     private Application application;
 
     @Override
-    public void execute(String[] args) throws InvalidArgumentsException {
+    public void execute(String[] args) throws CommandInvocationException {
         if (args != null && args.length > 0) {
-            throw new InvalidArgumentsException("Invalid number of command arguments");
+            throw new CommandInvocationException("Invalid number of command arguments");
         }
 
         application.stop();

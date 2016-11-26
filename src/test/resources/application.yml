@@ -14,4 +14,11 @@ spring:
         database-platform: org.hibernate.dialect.H2Dialect
 
 elibrary:
+    logo: "Welcome to e-library! \n
+        ...._______..................\n
+        .../      /,.....Created.by..\n
+        ../      //.....Panas.Sydor..\n
+        ./______//...................\n
+        (______(/...................."
+
     default-book-author: Unknown

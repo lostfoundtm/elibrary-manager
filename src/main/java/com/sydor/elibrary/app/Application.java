@@ -7,12 +7,13 @@ import com.sydor.elibrary.command.CommandQuery;
 import com.sydor.elibrary.command.impl.Help;
 import com.sydor.elibrary.console.CommandLine;
 import com.sydor.elibrary.console.CommandQueryProcessor;
-import com.sydor.elibrary.exception.InvalidArgumentsException;
+import com.sydor.elibrary.exception.CommandInvocationException;
 import com.sydor.elibrary.exception.InvalidCommandQueryException;
 import com.sydor.elibrary.exception.NoSuchCommandException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,6 +23,8 @@ public class Application {
 
     private boolean isRunning = false;
 
+    @Value("${elibrary.logo}")
+    private String logo;
     @Autowired
     private CommandLine commandLine;
     @Autowired
@@ -36,6 +39,7 @@ public class Application {
         onStartup();
 
         while (isRunning) {
+            commandLine.print("$> ");
             processCommandQuery(commandLine.readLine());
         }
     }
@@ -47,7 +51,7 @@ public class Application {
     }
 
     private void onStartup() {
-        commandLine.println("Welcome to e-library!");
+        commandLine.println(logo);
         commandLine.newLine();
         commandLine.println("Here is command list:");
         try {
@@ -55,7 +59,7 @@ public class Application {
         } catch (NoSuchCommandException e) {
             logger.error("Help command no found!");
             commandLine.println("Sorry help command not found.");
-        } catch (InvalidArgumentsException e) {
+        } catch (CommandInvocationException e) {
             logger.error("Failed to run help command", e);
         }
     }
@@ -66,11 +70,11 @@ public class Application {
             Command command = commandLibrary.getCommand(commandQuery.getCommand());
             command.execute(commandQuery.getArgs());
         } catch (InvalidCommandQueryException e) {
-            commandLine.println("Invalid command query.\nType 'help' to get help info.");
+            commandLine.println("Invalid command query (" + e.getMessage() + ").\nType 'help' to get help info.");
         } catch (NoSuchCommandException e) {
-            commandLine.println("Invalid command.\nType 'help' to get command list.");
-        } catch (InvalidArgumentsException e) {
-            commandLine.println("Invalid command arguments.\nType 'help <command>' to get detail command info.");
+            commandLine.println("Invalid command (" + e.getMessage() + ").\nType 'help' to get command list.");
+        } catch (CommandInvocationException e) {
+            commandLine.println("Invalid command invocation.\nType 'help <command>' to get detail command info.");
         }
     }
 }
