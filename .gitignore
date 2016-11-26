@@ -1,0 +1,9 @@
+*.class
+logs/
+data/
+
+### idea
+*.iml
+.idea/
+target/
+

@@ -1,0 +1,24 @@
+spring:
+    main:
+        banner-mode: "off"
+
+    datasource:
+        url: jdbc:h2:mem:test-elibrary;DB_CLOSE_ON_EXIT=TRUE
+        username: admin
+        password: nimda
+
+    jpa:
+        show-sql: false
+        hibernate:
+            ddl-auto: update
+        database-platform: org.hibernate.dialect.H2Dialect
+
+elibrary:
+    logo: "Welcome to e-library! \n
+        ...._______..................\n
+        .../      /,.....Created.by..\n
+        ../      //.....Panas.Sydor..\n
+        ./______//...................\n
+        (______(/....................\n
+        ............................."
+    default-book-author: Unknown
